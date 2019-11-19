@@ -41,13 +41,15 @@ custom:
 provider:
   name: aws
   runtime: nodejs10.x
+  stage: ${opt:stage, 'sandpit'}
+  region: ap-southeast-2
   vpc:
     securityGroupIds:
-      - ${self:custom.securityGroup.${self:custom.StageName, 'sandpit'}}
+      - ${self:custom.securityGroup.${self:custom.StageName}}
     subnetIds:
-      - ${self:custom.subnet.${self:custom.StageName, 'sandpit'}.privateA}
-      - ${self:custom.subnet.${self:custom.StageName, 'sandpit'}.privateB}
-      - ${self:custom.subnet.${self:custom.StageName, 'sandpit'}.privateC}
+      - ${self:custom.subnet.${self:custom.StageName}.privateA}
+      - ${self:custom.subnet.${self:custom.StageName}.privateB}
+      - ${self:custom.subnet.${self:custom.StageName}.privateC}
 
 functions:
   - ${file(src/functions/sns/sms.yml)}
