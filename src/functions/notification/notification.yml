@@ -1,0 +1,6 @@
+get-notifications:
+  handler: src/functions/notification/get-notifications.main
+  events:
+    - http:
+        path: notifications
+        method: get

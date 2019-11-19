@@ -1,0 +1,36 @@
+send-sms-message:
+  handler: src/functions/sns/send-sms-message.main
+  events:
+    - http:
+        path: send-sms-message
+        method: post
+create-sns-topic:
+  handler: src/functions/sns/create-sns-topic.main
+  events:
+    - http:
+        path: create-sns-topic
+        method: post
+delete-sns-topic:
+  handler: src/functions/sns/delete-sns-topic.main
+  events:
+    - http:
+        path: delete-sns-topic
+        method: post
+subscribe-to-topic:
+  handler: src/functions/sns/subscribe-to-topic.main
+  events:
+    - http:
+        path: subscribe-to-topic
+        method: post
+unsubscribe-to-topic:
+  handler: src/functions/sns/unsubscribe-to-topic.main
+  events:
+    - http:
+        path: unsubscribe-to-topic
+        method: post
+send-sms-message-to-topic:
+  handler: src/functions/sns/send-sms-message-to-topic.main
+  events:
+    - http:
+        path: send-sms-message-to-topic
+        method: post

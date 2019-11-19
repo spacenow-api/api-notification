@@ -1,0 +1,63 @@
+service: spacenow-notification-api
+
+dotenv:
+  path: ./.env
+  basePath: ./
+  include:
+    - DATABASE_SCHEMA
+    - DATABASE_HOST
+    - DATABASE_USERNAME
+    - DATABASE_PASSWORD
+
+custom:
+  StageName: ${opt:stage, 'sandpit'}
+  StageNameCert: ${opt:stageCert, ''}
+  domains:
+    default: api-notification.${self:custom.StageName}.cloud.spacenow.com
+    prod: api-notification.spacenow.com
+  subnet:
+    sandpit:
+      privateA: subnet-0c75bbd1ea60481d4
+      privateB: subnet-070ac699acd775765
+      privateC: subnet-0eca793083726120c
+    prod:
+      privateA: subnet-04d5af2458ebdabbf
+      privateB: subnet-010ee1d571a9ca82c
+      privateC: subnet-069abf1da82eb3acc
+  securityGroup:
+    sandpit: sg-0dbf2b9d996f4c91e
+    prod: sg-00b4a2172f7e29276
+  customDomain:
+    domainName: ${self:custom.domains.${self:custom.StageName}, self:custom.domains.default}
+    basePath: ""
+    stage: ${self:custom.StageName}
+    certificateArn: ${ssm:/${self:custom.StageNameCert, ''}/ACM_CERTIFICATE, ''}
+    createRoute53Record: true
+    endpointType: "regional"
+  prune:
+    automatic: true
+    number: 3
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  vpc:
+    securityGroupIds:
+      - ${self:custom.securityGroup.${self:custom.StageName, 'sandpit'}}
+    subnetIds:
+      - ${self:custom.subnet.${self:custom.StageName, 'sandpit'}.privateA}
+      - ${self:custom.subnet.${self:custom.StageName, 'sandpit'}.privateB}
+      - ${self:custom.subnet.${self:custom.StageName, 'sandpit'}.privateC}
+
+functions:
+  - ${file(src/functions/sns/sms.yml)}
+  - ${file(src/functions/notification/notification.yml)}
+
+plugins:
+  - serverless-offline
+  - serverless-domain-manager
+  - serverless-prune-plugin
+  - serverless-dotenv-plugin
+
+resources:
+  - ${file(resources/api-gateway-errors.yml)}
