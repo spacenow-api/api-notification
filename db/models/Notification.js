@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       field: 'id'
     },
+    type: {
+      type: DataTypes.ENUM('guest', 'host'),
+      field: 'type'
+    },
     name: {
       type: DataTypes.STRING,
       field: 'name'

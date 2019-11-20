@@ -4,3 +4,27 @@ get-notifications:
     - http:
         path: notifications
         method: get
+get-notifications-by-type:
+  handler: src/functions/notification/get-notifications-by-type.main
+  events:
+    - http:
+        path: notifications-by-type
+        method: get
+get-notification:
+  handler: src/functions/notification/get-notification.main
+  events:
+    - http:
+        path: notification/{id}
+        method: get
+post-notification:
+  handler: src/functions/notification/post-notification.main
+  events:
+    - http:
+        path: notification
+        method: post
+put-notification:
+  handler: src/functions/notification/put-notification.main
+  events:
+    - http:
+        path: notification/{id}
+        method: put
