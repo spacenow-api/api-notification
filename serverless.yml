@@ -1,4 +1,4 @@
-service: spacenow-notification-api
+service: api-notification
 
 dotenv:
   path: ./.env
@@ -12,7 +12,7 @@ dotenv:
 custom:
   domains:
     default: ${self:service}.${opt:stage, 'sandpit'}.cloud.spacenow.com
-    prod: api-notification.spacenow.com
+    prod: ${self:service}.spacenow.com
   subnet:
     sandpit:
       privateA: subnet-0c75bbd1ea60481d4
