@@ -10,10 +10,8 @@ dotenv:
     - DATABASE_PASSWORD
 
 custom:
-  StageName: ${opt:stage, 'sandpit'}
-  StageNameCert: ${opt:stageCert, ''}
   domains:
-    default: api-notification.${self:custom.StageName}.cloud.spacenow.com
+    default: ${self:service}.${opt:stage, 'sandpit'}.cloud.spacenow.com
     prod: api-notification.spacenow.com
   subnet:
     sandpit:
@@ -28,10 +26,10 @@ custom:
     sandpit: sg-0dbf2b9d996f4c91e
     prod: sg-00b4a2172f7e29276
   customDomain:
-    domainName: ${self:custom.domains.${self:custom.StageName}, self:custom.domains.default}
+    domainName: ${self:custom.domains.${opt:stage, 'sandpit'}, self:custom.domains.default}
     basePath: ""
-    stage: ${self:custom.StageName}
-    certificateArn: ${ssm:/${self:custom.StageNameCert, ''}/ACM_CERTIFICATE, ''}
+    stage: ${opt:stage, 'sandpit'}
+    certificateArn: ${ssm:/${opt:stageCert, 'SANDPIT'}/ACM_CERTIFICATE}
     createRoute53Record: true
     endpointType: "regional"
   prune:
@@ -45,11 +43,11 @@ provider:
   region: ap-southeast-2
   vpc:
     securityGroupIds:
-      - ${self:custom.securityGroup.${self:custom.StageName}}
+      - ${self:custom.securityGroup.${opt:stage, 'sandpit'}}
     subnetIds:
-      - ${self:custom.subnet.${self:custom.StageName}.privateA}
-      - ${self:custom.subnet.${self:custom.StageName}.privateB}
-      - ${self:custom.subnet.${self:custom.StageName}.privateC}
+      - ${self:custom.subnet.${opt:stage, 'sandpit'}.privateA}
+      - ${self:custom.subnet.${opt:stage, 'sandpit'}.privateB}
+      - ${self:custom.subnet.${opt:stage, 'sandpit'}.privateC}
   environment:
     DATABASE_SCHEMA: ${ssm:/${opt:stageCert, 'SANDPIT'}/SPACENOW/DATABASE_SCHEMA~true}
     DATABASE_HOST: ${ssm:/${opt:stageCert, 'SANDPIT'}/SPACENOW/DATABASE_HOST~true}
