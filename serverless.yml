@@ -39,6 +39,8 @@ custom:
 provider:
   name: aws
   runtime: nodejs10.x
+  timeout: 120
+  versionFunctions: false
   stage: ${opt:stage, 'sandpit'}
   region: ap-southeast-2
   iamRoleStatements:

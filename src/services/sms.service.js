@@ -1,7 +1,7 @@
 'use strict'
 
 const AWS = require('aws-sdk');
-const sns = new AWS.SNS({ region: 'us-east-1' });
+const sns = new AWS.SNS({ region: 'ap-southeast-2' });
 
 const sendSMSMessage = async ({ message, sender, receiver }) => {
 
