@@ -1,9 +1,9 @@
 'use strict'
 
 const AWS = require('aws-sdk');
-const sns = new AWS.SNS();
+const sns = new AWS.SNS({ region: 'us-east-1' });
 
-const sendSMSMessage = async ({message, sender, receiver}) => {
+const sendSMSMessage = async ({ message, sender, receiver }) => {
 
   var params = {
     Message: message,
@@ -28,7 +28,7 @@ const sendSMSMessage = async ({message, sender, receiver}) => {
 
 }
 
-const createSNSTopic = async ({topic}) => {
+const createSNSTopic = async ({ topic }) => {
 
   var params = {
     Name: topic
@@ -42,7 +42,7 @@ const createSNSTopic = async ({topic}) => {
 
 }
 
-const deleteSNSTopic = async ({topicArn}) => {
+const deleteSNSTopic = async ({ topicArn }) => {
 
   var params = {
     TopicArn: topicArn
@@ -56,7 +56,7 @@ const deleteSNSTopic = async ({topicArn}) => {
 
 }
 
-const sendSMSMessageToTopic = async ({message, sender, topicArn}) => {
+const sendSMSMessageToTopic = async ({ message, sender, topicArn }) => {
 
   var params = {
     Message: message,
@@ -81,7 +81,7 @@ const sendSMSMessageToTopic = async ({message, sender, topicArn}) => {
 
 }
 
-const subscribeToTopic = async ({topicArn, phoneNumber}) => {
+const subscribeToTopic = async ({ topicArn, phoneNumber }) => {
 
   var params = {
     Protocol: 'sms',
@@ -97,7 +97,7 @@ const subscribeToTopic = async ({topicArn, phoneNumber}) => {
 
 }
 
-const unsubscribeToTopic = async ({subscriptionArn}) => {
+const unsubscribeToTopic = async ({ subscriptionArn }) => {
 
   var params = {
     SubscriptionArn: subscriptionArn
