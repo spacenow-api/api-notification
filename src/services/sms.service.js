@@ -20,10 +20,12 @@ const sendSMSMessage = async ({ message, sender, receiver }) => {
     PhoneNumber: receiver
   };
 
-  sns.publish(params, (error, data) => {
-    if (error)
-      throw error
-    return data
+  return Promise.all((resolve, reject) => {
+    sns.publish(params, (error, data) => {
+      if (error)
+        reject(error)
+      resolve(data)
+    })
   })
 
 }
@@ -34,10 +36,12 @@ const createSNSTopic = async ({ topic }) => {
     Name: topic
   }
 
-  sns.createTopic(params, (error, data) => {
-    if (error)
-      throw error
-    return data
+  return Promise.all((resolve, reject) => {
+    sns.createTopic(params, (error, data) => {
+      if (error)
+        reject(error)
+      resolve(data)
+    })
   })
 
 }
@@ -48,10 +52,12 @@ const deleteSNSTopic = async ({ topicArn }) => {
     TopicArn: topicArn
   };
 
-  sns.deleteTopic(params, (error, data) => {
-    if (error)
-      throw error
-    return data
+  return Promise.all((resolve, reject) => {
+    sns.deleteTopic(params, (error, data) => {
+      if (error)
+        reject(error)
+      resolve(data)
+    })
   })
 
 }
@@ -72,11 +78,12 @@ const sendSMSMessageToTopic = async ({ message, sender, topicArn }) => {
     },
     TopicArn: topicArn
   };
-
-  sns.publish(params, (error, data) => {
-    if (error)
-      throw error
-    return data
+  return Promise.all((resolve, reject) => {
+    sns.publish(params, (error, data) => {
+      if (error)
+        reject(error)
+      resolve(data)
+    })
   })
 
 }
@@ -89,10 +96,12 @@ const subscribeToTopic = async ({ topicArn, phoneNumber }) => {
     Endpoint: phoneNumber
   };
 
-  sns.subscribe(params, (error, data) => {
-    if (error)
-      throw error
-    return data
+  return Promise.all((resolve, reject) => {
+    sns.subscribe(params, (error, data) => {
+      if (error)
+        reject(error)
+      resolve(data)
+    })
   })
 
 }
@@ -103,10 +112,12 @@ const unsubscribeToTopic = async ({ subscriptionArn }) => {
     SubscriptionArn: subscriptionArn
   };
 
-  sns.unsubscribe(params, (error, data) => {
-    if (error)
-      throw error
-    return data
+  return Promise.all((resolve, reject) => {
+    sns.unsubscribe(params, (error, data) => {
+      if (error)
+        reject(error)
+      resolve(data)
+    })
   })
 
 }
